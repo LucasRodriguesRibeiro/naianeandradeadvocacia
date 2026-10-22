@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { 
   Scale, 
   UserCheck, 
-  Briefcase, 
+  Briefcase,
   ShieldCheck, 
   Clock, 
   MessageCircle, 
@@ -18,19 +18,18 @@ import {
   X, 
   Phone, 
   Mail, 
-  MapPin, 
-  Star,
+  Landmark,
+  Users,
+  HeartHandshake,
   CheckCircle2,
-  Linkedin,
-  Instagram,
-  Facebook
+  Star
 } from 'lucide-react';
 
 // --- Components ---
 
 const WhatsAppButton = () => (
   <motion.a
-    href="https://wa.me/5574998126225" // Replace with real number
+    href="https://wa.me/5574999866142"
     target="_blank"
     rel="noopener noreferrer"
     className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 group"
@@ -45,15 +44,44 @@ const WhatsAppButton = () => (
   </motion.a>
 );
 
+const Brand = ({ compact = false }: { compact?: boolean }) => (
+  <img
+    src="/logo-naiane-andrade-transparente.png"
+    alt="Naiane Andrade — Advocacia & Consultoria Jurídica"
+    className={`${compact ? 'w-36 md:w-44 lg:w-52' : 'w-48 md:w-56'} h-auto object-contain`}
+  />
+);
+
+const Reveal = ({
+  children,
+  className = '',
+  delay = 0,
+  direction = 'up',
+}: {
+  key?: React.Key;
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: 'up' | 'left' | 'right';
+}) => {
+  const reduceMotion = useReducedMotion();
+  const offset = direction === 'left' ? { x: -36, y: 0 } : direction === 'right' ? { x: 36, y: 0 } : { x: 0, y: 36 };
+
+  return (
+    <motion.div
+      className={className}
+      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, ...offset }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
+      transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const navLinks = [
     { name: 'Início', href: '#home' },
@@ -64,10 +92,10 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-40 transition-all duration-300 ${scrolled ? 'bg-navy-900/95 backdrop-blur-md py-3 shadow-lg' : 'bg-transparent py-4 lg:py-6'}`}>
+    <nav className="absolute top-0 left-0 w-full z-40 bg-transparent py-4 lg:py-6">
       <div className="max-w-7xl mx-auto px-10 lg:px-12 flex justify-between items-center text-white">
         <a href="#home" className="flex items-center">
-          <img src="/logo-layla.png" alt="Layla Marreta" className="max-h-16 md:max-h-20 lg:max-h-24 w-auto object-contain" />
+          <Brand compact />
         </a>
 
         {/* Desktop Links */}
@@ -77,7 +105,7 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <a href="https://wa.me/5574998126225" className="bg-gold-500 hover:bg-gold-600 text-white px-6 py-2 rounded-sm text-sm font-bold transition-all transform hover:translate-y-[-2px]">
+          <a href="https://wa.me/5574999866142" target="_blank" rel="noopener noreferrer" className="bg-gold-500 hover:bg-white text-navy-900 px-6 py-2 rounded-sm text-sm font-bold transition-all transform hover:translate-y-[-2px]">
             CONTATO
           </a>
         </div>
@@ -103,8 +131,8 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
-              <a href="https://wa.me/5574998126225" className="bg-gold-500 text-center py-3 rounded-sm font-bold uppercase">
-                Falar com a Drª Layla
+              <a href="https://wa.me/5574999866142" target="_blank" rel="noopener noreferrer" className="bg-gold-500 text-navy-900 text-center py-3 rounded-sm font-bold uppercase">
+                Falar com a Dra. Naiane
               </a>
             </div>
           </motion.div>
@@ -116,11 +144,6 @@ const Navbar = () => {
 
 const Hero = () => (
   <section id="home" className="relative min-h-screen flex items-center pt-28 pb-16 lg:pt-32 lg:pb-20 overflow-hidden bg-luxury-gradient text-white">
-    {/* Background Pattern */}
-    <div className="absolute inset-0 opacity-10 pointer-events-none">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--color-gold-500)_1px,_transparent_1px)] bg-[size:40px_40px]"></div>
-    </div>
-
     <div className="max-w-4xl mx-auto px-10 lg:px-12 w-full flex flex-col items-center text-center z-10">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -135,15 +158,15 @@ const Hero = () => (
           Sua Defesa em Boas Mãos <br className="hidden md:block" /> com <span className="italic font-normal text-gold-400">Excelência Jurídica</span>
         </h1>
         <p className="text-base md:text-xl text-white/70 mb-8 lg:mb-10 max-w-2xl leading-relaxed">
-          Atendimento humanizado e especializado em Direito Civil, Previdenciário e Trabalhista. Proteja seus direitos com quem entende.
+          Especialista em Direito de Família, com foco em inventários. Atendimento jurídico on-line, humanizado e personalizado.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4 lg:gap-6 justify-center w-full sm:w-auto">
-          <a href="https://wa.me/5574998126225" className="flex items-center justify-center w-full sm:w-auto gap-2 bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold px-6 py-4 lg:px-8 lg:py-4 rounded-sm transition-all transform hover:scale-105 shadow-xl text-base lg:text-lg">
-            Falar com a Drª Layla <ArrowRight className="w-5 h-5" />
+          <a href="https://wa.me/5574999866142" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full sm:w-auto gap-2 bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold px-6 py-4 lg:px-8 lg:py-4 rounded-sm transition-all transform hover:scale-105 shadow-xl text-base lg:text-lg">
+            Falar com a Dra. Naiane <ArrowRight className="w-5 h-5" />
           </a>
           <div className="flex items-center gap-3 text-white/60">
             <ShieldCheck className="w-6 h-6 text-gold-500" />
-            <span className="text-sm font-medium">OAB/BA 80822</span>
+            <span className="text-sm font-medium">Atendimento on-line</span>
           </div>
         </div>
       </motion.div>
@@ -154,38 +177,57 @@ const Hero = () => (
 const Areas = () => {
   const areas = [
     {
-      title: 'Direito Civil',
+      title: 'Inventários',
       icon: <Scale className="w-8 h-8" />,
-      desc: 'Soluções em contratos, família, sucessões e responsabilidade civil.'
+      desc: 'Atuação especializada em inventários e orientação em todas as etapas da sucessão.'
     },
     {
-      title: 'Direito Previdenciário',
-      icon: <UserCheck className="w-8 h-8" />,
-      desc: 'Auxílio completo para aposentadorias, auxílios e benefícios do INSS.'
+      title: 'Guarda e Pensão',
+      icon: <Users className="w-8 h-8" />,
+      desc: 'Orientação jurídica em questões de guarda, convivência e pensão alimentícia.'
     },
     {
-      title: 'Direito Trabalhista',
+      title: 'Divórcio',
+      icon: <HeartHandshake className="w-8 h-8" />,
+      desc: 'Acompanhamento cuidadoso em divórcios consensuais e litigiosos.'
+    },
+    {
+      title: 'Direito do Consumidor',
       icon: <Briefcase className="w-8 h-8" />,
-      desc: 'Defesa vigorosa dos direitos do trabalhador e orientação consultiva.'
+      desc: 'Defesa do consumidor e análise de financiamentos com juros abusivos.'
+    },
+    {
+      title: 'Aposentadoria',
+      icon: <Landmark className="w-8 h-8" />,
+      desc: 'Orientação e acompanhamento de pedidos de aposentadoria.'
+    },
+    {
+      title: 'Direito Criminal',
+      icon: <ShieldCheck className="w-8 h-8" />,
+      desc: 'Atendimento de casos criminais sujeito à análise antecipada.'
     }
   ];
 
   return (
     <section id="areas" className="py-16 lg:py-32 bg-stone-100">
       <div className="max-w-7xl mx-auto px-10 lg:px-12">
-        <div className="text-center mb-12 lg:mb-20">
+        <Reveal className="text-center mb-12 lg:mb-20">
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 lg:mb-6">Áreas de Atuação</h2>
-          <div className="w-16 md:w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
-        </div>
+          <div className="w-16 md:w-24 h-1 bg-navy-800 mx-auto rounded-full"></div>
+        </Reveal>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
           {areas.map((area, idx) => (
             <motion.div
               key={area.title}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: idx * 0.08 }}
               whileHover={{ y: -10 }}
               className="bg-white p-8 lg:p-12 rounded-2xl shadow-md hover:shadow-2xl transition-all border border-gray-100 group flex flex-col items-center md:items-start text-center md:text-left"
             >
-              <div className="mb-6 lg:mb-8 text-gold-500 bg-gold-500/10 w-16 h-16 lg:w-20 lg:h-20 flex items-center justify-center rounded-2xl group-hover:bg-gold-500 group-hover:text-white transition-colors duration-500">
+              <div className="mb-6 lg:mb-8 text-navy-800 bg-navy-800/10 w-16 h-16 lg:w-20 lg:h-20 flex items-center justify-center rounded-2xl group-hover:bg-navy-800 group-hover:text-white transition-colors duration-500">
                 {area.icon}
               </div>
               <h3 className="text-xl font-bold mb-4 tracking-tight">{area.title}</h3>
@@ -201,62 +243,69 @@ const Areas = () => {
 const About = () => (
   <section id="sobre" className="py-16 lg:py-32 bg-white overflow-hidden">
     <div className="max-w-7xl mx-auto px-10 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-      <div className="relative max-w-md mx-auto lg:mx-0 w-full">
+      <Reveal direction="left" className="relative max-w-md mx-auto lg:mx-0 w-full">
         <div className="relative z-10">
-          <img 
-            src="/advogadalayla.jfif" 
-            alt="Dra. Layla Marreta" 
-            className="rounded-2xl shadow-2xl w-full object-cover object-top aspect-[4/5]"
-            referrerPolicy="no-referrer"
+          <img
+            src="/naiane-andrade-advogada.jpeg"
+            alt="Dra. Naiane Andrade"
+            className="rounded-2xl shadow-2xl w-full aspect-[4/5] object-cover object-top border border-navy-900/10"
           />
         </div>
-      </div>
+      </Reveal>
 
-      <div>
-        <span className="text-gold-500 font-bold uppercase tracking-widest text-xs md:text-sm mb-4 block">Sobre Dra. Layla Marreta</span>
+      <Reveal direction="right" delay={0.12}>
+        <span className="text-navy-800 font-bold uppercase tracking-widest text-xs md:text-sm mb-4 block">Sobre Dra. Naiane Andrade</span>
         <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 lg:mb-8 leading-tight tracking-tight">Compromisso Ético e <span className="italic font-normal text-gray-400">Resultados Sérios</span></h2>
         <div className="space-y-4 lg:space-y-6 text-gray-600 text-sm md:text-lg leading-relaxed">
           <p>
-            Com uma trajetória pautada pela ética e transparência, Layla Marreta (OAB/BA 80822) fundou seu escritório com a missão de oferecer uma advocacia acessível, humanizada e técnica.
+            Naiane Andrade oferece advocacia acessível, humanizada e técnica, com atendimento on-line e atenção individual a cada cliente.
           </p>
           <p>
-            Especialista em Direito Civil e Previdenciário, acredita que cada caso é único e merece uma estratégia personalizada para garantir a melhor defesa dos interesses de seus clientes.
+            Especialista em Direito de Família, com foco em inventários, também atua em demandas de consumidor, guarda e pensão, divórcio, aposentadoria e análise de financiamentos com juros abusivos. Casos criminais são atendidos mediante análise antecipada.
           </p>
           <ul className="space-y-3 pt-4">
             {['Atendimento personalizado', 'Transparência em cada etapa', 'Foco na solução de conflitos'].map((item) => (
               <li key={item} className="flex items-center gap-3 font-medium text-navy-900">
-                <CheckCircle2 className="w-5 h-5 text-gold-500" /> {item}
+                <CheckCircle2 className="w-5 h-5 text-navy-800" /> {item}
               </li>
             ))}
           </ul>
         </div>
-      </div>
+      </Reveal>
     </div>
   </section>
 );
 
 const Testimonials = () => {
   const reviews = [
-    { name: 'Ana Silva', text: 'Atendimento impecável! Resolveu meu problema previdenciário com muita competência.', rating: 5 },
-    { name: 'Carlos Santos', text: 'A Dra. Layla é extremamente atenciosa e esclareceu todas as minhas dúvidas trabalhistas.', rating: 5 },
-    { name: 'Maria Souza', text: 'Profissional de altíssimo nível. Recomendo para quem busca segurança jurídica.', rating: 5 },
+    {
+      name: 'Valéria Aparecida Melim',
+      time: 'um ano atrás',
+      text: 'Excelente e competente advogada, cuidou por anos da ação previdenciária. Ganhamos todas as causas. Confiança é tudo.',
+      response: 'Foi um privilégio poder acompanhar sua trajetória e alcançar resultados tão importantes juntas. Conte sempre comigo!',
+    },
+    {
+      name: 'Nene Santos',
+      time: 'um ano atrás',
+      text: 'Faz sempre um bom trabalho e uma profissional de excelência. 👏👏 indico ela sempre.',
+      response: 'Muito obrigada. Fico feliz em ter ajudado',
+    },
+    {
+      name: 'evertonsimoes',
+      time: '2 anos atrás',
+      text: 'Excelente advogada',
+      response: 'Obrigada, que bom que consegui te ajudar.',
+    },
   ];
 
   return (
     <section className="py-16 lg:py-32 bg-luxury-gradient text-white">
       <div className="max-w-7xl mx-auto px-10 lg:px-12">
-        <div className="text-center mb-12 lg:mb-20">
+        <Reveal className="text-center mb-12 lg:mb-20">
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 lg:mb-6">O que dizem os clientes</h2>
           <div className="w-16 md:w-24 h-1 bg-gold-500 mx-auto rounded-full mb-6 lg:mb-8"></div>
-          <div className="flex justify-center gap-1 text-gold-500">
-            <Star className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-            <Star className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-            <Star className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-            <Star className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-            <Star className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-            <span className="ml-2 text-white/80 font-medium text-sm md:text-base">5.0 no Google</span>
-          </div>
-        </div>
+          <p className="text-white/70 max-w-2xl mx-auto">Avaliações publicadas por clientes no Google</p>
+        </Reveal>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
           {reviews.map((rev, idx) => (
@@ -264,13 +313,28 @@ const Testimonials = () => {
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.55, delay: idx * 0.1 }}
               className="bg-white/5 border border-white/10 p-8 lg:p-10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-colors"
             >
-              <div className="flex gap-1 text-gold-500 mb-4">
-                {[...Array(rev.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-11 h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center font-bold text-gold-500">
+                  {rev.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <p className="font-bold">{rev.name}</p>
+                  <p className="text-xs text-white/50">{rev.time}</p>
+                </div>
               </div>
-              <p className="text-white/80 italic mb-6">"{rev.text}"</p>
-              <p className="font-bold border-t border-white/10 pt-4">— {rev.name}</p>
+              <div className="flex gap-1 text-[#fbbc04] mb-4" aria-label="5 de 5 estrelas">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+              </div>
+              <p className="text-white/85 leading-relaxed mb-6">“{rev.text}”</p>
+              <div className="border-t border-white/10 pt-5">
+                <p className="text-xs font-bold uppercase tracking-wider text-gold-500 mb-2">Resposta de Naiane Andrade</p>
+                <p className="text-sm text-white/65 leading-relaxed">{rev.response}</p>
+              </div>
+              <p className="text-xs text-white/35 mt-6">Avaliação do Google</p>
             </motion.div>
           ))}
         </div>
@@ -282,7 +346,7 @@ const Testimonials = () => {
 const WhyUs = () => {
   const steps = [
     { title: 'Atendimento Rápido', icon: <Clock className="w-10 h-10" />, desc: 'Não deixe seu problema jurídico esperar. Resposta ágil.' },
-    { title: 'Via WhatsApp', icon: <MessageCircle className="w-10 h-10" />, desc: 'Consultoria moderna e acessível no seu bolso.' },
+    { title: 'Atendimento on-line', icon: <MessageCircle className="w-10 h-10" />, desc: 'Consultoria moderna e acessível onde você estiver.' },
     { title: 'Transparência', icon: <ShieldCheck className="w-10 h-10" />, desc: 'Relatórios claros e honestidade sobre as chances do caso.' },
     { title: 'Humanizado', icon: <UserCheck className="w-10 h-10" />, desc: 'Você fala diretamente com a advogada, sem intermediários.' },
   ];
@@ -290,19 +354,19 @@ const WhyUs = () => {
   return (
     <section id="diferenciais" className="py-16 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-10 lg:px-12">
-        <div className="text-center mb-12 lg:mb-20">
+        <Reveal className="text-center mb-12 lg:mb-20">
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 lg:mb-6">Por que nos escolher?</h2>
-          <div className="w-16 md:w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
-        </div>
+          <div className="w-16 md:w-24 h-1 bg-navy-800 mx-auto rounded-full"></div>
+        </Reveal>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step) => (
-            <div key={step.title} className="text-center group">
-              <div className="mx-auto w-24 h-24 bg-stone-100 rounded-2xl flex items-center justify-center text-navy-900 group-hover:bg-gold-500 group-hover:text-white group-hover:-rotate-3 transition-all duration-300 mb-8 shadow-sm group-hover:shadow-lg">
+          {steps.map((step, idx) => (
+            <Reveal key={step.title} delay={idx * 0.09} className="text-center group">
+              <div className="mx-auto w-24 h-24 bg-stone-100 rounded-2xl flex items-center justify-center text-navy-900 group-hover:bg-navy-800 group-hover:text-white group-hover:-rotate-3 transition-all duration-300 mb-8 shadow-sm group-hover:shadow-lg">
                 {step.icon}
               </div>
               <h3 className="text-lg font-bold tracking-tight mb-4">{step.title}</h3>
               <p className="text-sm md:text-base text-gray-600">{step.desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -314,23 +378,23 @@ const FAQ = () => {
   const [activeIdx, setActiveIdx] = useState<number | null>(0);
 
   const faqs = [
-    { q: 'Como funciona o primeiro atendimento?', a: 'O primeiro contato é feito via WhatsApp ou presencial, onde analisamos os detalhes do seu caso para verificar a viabilidade jurídica.' },
-    { q: 'Vocês atendem em todo o Brasil?', a: 'Sim, através do processo digital e reuniões online, podemos atuar em território nacional, especialmente em causas previdenciárias e cíveis.' },
-    { q: 'Quais documentos preciso para aposentação?', a: 'Geralmente RG, CPF, Carteira de Trabalho e o CNIS. Mas cada benefício pode exigir documentos específicos que orientamos na consulta.' },
+    { q: 'Como funciona o primeiro atendimento?', a: 'O primeiro contato é feito pelo WhatsApp. O caso é analisado e o atendimento segue de forma on-line, com orientação sobre os próximos passos.' },
+    { q: 'O atendimento é presencial?', a: 'Não. O escritório realiza atendimento on-line, oferecendo praticidade e segurança aos clientes.' },
+    { q: 'Quais casos são atendidos?', a: 'Inventários, guarda e pensão, divórcio, consumidor, aposentadoria e financiamentos com juros abusivos. Casos criminais dependem de análise antecipada.' },
     { q: 'Como são cobrados os honorários?', a: 'Seguimos rigorosamente a tabela da OAB. A forma de cobrança (inicial ou ao êxito) depende da natureza da causa.' },
   ];
 
   return (
     <section id="faq" className="py-16 lg:py-32 bg-stone-100">
       <div className="max-w-3xl mx-auto px-10 lg:px-12">
-        <div className="text-center mb-12 lg:mb-20">
+        <Reveal className="text-center mb-12 lg:mb-20">
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 lg:mb-6">Perguntas Frequentes</h2>
-          <div className="w-16 md:w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
-        </div>
+          <div className="w-16 md:w-24 h-1 bg-navy-800 mx-auto rounded-full"></div>
+        </Reveal>
         
         <div className="space-y-4">
           {faqs.map((f, i) => (
-            <div key={i} className="bg-white rounded-lg shadow-sm">
+            <Reveal key={i} delay={i * 0.07} className="bg-white rounded-lg shadow-sm">
               <button 
                 onClick={() => setActiveIdx(activeIdx === i ? null : i)}
                 className="w-full text-left p-6 flex justify-between items-center font-bold text-navy-900"
@@ -352,7 +416,7 @@ const FAQ = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -363,15 +427,15 @@ const FAQ = () => {
 const FinalCTA = () => (
   <section className="py-20 lg:py-40 bg-luxury-gradient text-white relative overflow-hidden">
     <div className="absolute top-0 right-0 w-1/3 h-full bg-gold-500/5 -skew-x-12 transform translate-x-1/2"></div>
-    <div className="max-w-7xl mx-auto px-10 lg:px-12 text-center relative z-10">
+    <Reveal className="max-w-7xl mx-auto px-10 lg:px-12 text-center relative z-10">
       <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 lg:mb-10 leading-tight tracking-tight">Pronto para Recuperar <br/>seus <span className="text-gold-500 italic font-normal">Direitos?</span></h2>
       <p className="text-base md:text-xl text-white/70 mb-8 lg:mb-12 max-w-2xl mx-auto leading-relaxed">
         Não espere o tempo passar. Entre em contato agora para uma análise exclusiva do seu caso com total sigilo e profissionalismo.
       </p>
-      <a href="https://wa.me/5574998126225" className="inline-flex items-center gap-3 bg-white text-navy-900 font-bold px-8 py-4 lg:px-10 lg:py-5 rounded-full hover:bg-gold-500 hover:text-white transition-all transform hover:scale-105 shadow-2xl text-sm lg:text-base w-full sm:w-auto justify-center">
+      <a href="https://wa.me/5574999866142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-white text-navy-900 font-bold px-8 py-4 lg:px-10 lg:py-5 rounded-full hover:bg-gold-500 transition-all transform hover:scale-105 shadow-2xl text-sm lg:text-base w-full sm:w-auto justify-center">
         <Phone className="w-5 h-5" /> Iniciar Consultoria via WhatsApp
       </a>
-    </div>
+    </Reveal>
   </section>
 );
 
@@ -380,32 +444,27 @@ const Footer = () => (
     <div className="max-w-7xl mx-auto px-10 lg:px-12 grid md:grid-cols-4 gap-12 mb-12 lg:gap-16 lg:mb-20 items-start">
       <div className="col-span-2">
         <a href="#" className="inline-block mb-6">
-          <img src="/logo-layla.png" alt="Layla Marreta" className="w-32 md:w-40 lg:w-48 h-auto object-contain" />
+          <Brand />
         </a>
         <p className="text-white/60 max-w-sm mb-6">
           Defendendo seus direitos com determinação e inteligência jurídica. Atendimento especializado focado na resolução ética de conflitos.
         </p>
-        <div className="flex gap-4">
-          <a href="https://www.instagram.com/laylamarreta.adv/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-gold-500 hover:border-gold-500 transition-all">
-            <Instagram className="w-5 h-5" />
-          </a>
-        </div>
       </div>
 
       <div>
         <h4 className="text-lg font-bold mb-6 text-gold-500 uppercase tracking-widest">Contato</h4>
         <ul className="space-y-4 text-white/60">
-          <li className="flex items-start gap-3">
-            <MapPin className="w-5 h-5 text-gold-500 shrink-0" />
-            <span>Rua mundo novo, 168, centro, lapão - bahia</span>
-          </li>
           <li className="flex items-center gap-3">
             <Phone className="w-5 h-5 text-gold-500 shrink-0" />
-            <span>(74) 99812-6225</span>
+            <a href="https://wa.me/5574999866142" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors">(74) 99986-6142</a>
           </li>
           <li className="flex items-center gap-3">
             <Mail className="w-5 h-5 text-gold-500 shrink-0" />
-            <span>laylamarreta.advogada@gmail.com</span>
+            <a href="mailto:adv.naianeandrade@gmail.com" className="hover:text-gold-400 transition-colors break-all">adv.naianeandrade@gmail.com</a>
+          </li>
+          <li className="flex items-center gap-3">
+            <MessageCircle className="w-5 h-5 text-gold-500 shrink-0" />
+            <span>Atendimento on-line</span>
           </li>
         </ul>
       </div>
@@ -422,7 +481,7 @@ const Footer = () => (
     </div>
 
     <div className="max-w-7xl mx-auto px-10 lg:px-12 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-sm text-white/40">
-      <p>© {new Date().getFullYear()} Layla Marreta Advocacia. OAB/BA 80822. Todos os direitos reservados.</p>
+      <p>© {new Date().getFullYear()} Naiane Andrade Advocacia. Todos os direitos reservados.</p>
       <div className="flex gap-8 mt-4 md:mt-0">
         <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
         <a href="#" className="hover:text-white transition-colors">Privacidade</a>
@@ -435,7 +494,7 @@ const Footer = () => (
 
 export default function App() {
   return (
-    <div className="min-h-screen selection:bg-gold-500 selection:text-white">
+    <div className="min-h-screen selection:bg-gold-500 selection:text-navy-900">
       <Navbar />
       <Hero />
       <Areas />

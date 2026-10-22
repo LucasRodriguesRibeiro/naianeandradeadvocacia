@@ -5,12 +5,12 @@
   --font-serif: "Poppins", sans-serif;
   --font-sans: "Poppins", sans-serif;
   
-  --color-navy-900: #0a1128;
-  --color-navy-800: #0c1836;
-  --color-gold-500: #c5a059;
-  --color-gold-400: #d4af37;
-  --color-gold-600: #a3844a;
-  --color-stone-100: #f5f2ed;
+  --color-navy-900: #03194f;
+  --color-navy-800: #082661;
+  --color-gold-500: #e5e8f0;
+  --color-gold-400: #ffffff;
+  --color-gold-600: #c4cad8;
+  --color-stone-100: #f3f5f9;
 }
 
 @layer base {
@@ -24,7 +24,7 @@
 }
 
 .bg-luxury-gradient {
-  background: linear-gradient(135deg, var(--color-navy-900) 0%, var(--color-navy-800) 100%);
+  background: linear-gradient(135deg, var(--color-navy-900) 0%, #00133f 58%, var(--color-navy-800) 100%);
 }
 
 .text-gold-gradient {

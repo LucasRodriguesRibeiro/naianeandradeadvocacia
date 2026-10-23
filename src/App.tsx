@@ -22,7 +22,9 @@ import {
   Users,
   HeartHandshake,
   CheckCircle2,
-  Star
+  Star,
+  Instagram,
+  MapPin
 } from 'lucide-react';
 
 // --- Components ---
@@ -158,7 +160,7 @@ const Hero = () => (
           Sua Defesa em Boas Mãos <br className="hidden md:block" /> com <span className="italic font-normal text-gold-400">Excelência Jurídica</span>
         </h1>
         <p className="text-base md:text-xl text-white/70 mb-8 lg:mb-10 max-w-2xl leading-relaxed">
-          Especialista em Direito de Família, com foco em inventários. Atendimento jurídico on-line, humanizado e personalizado.
+          Advogada de Direito de Família e Inventário em Irecê-BA. Atendimento jurídico on-line, humanizado e personalizado.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4 lg:gap-6 justify-center w-full sm:w-auto">
           <a href="https://wa.me/5574999866142" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full sm:w-auto gap-2 bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold px-6 py-4 lg:px-8 lg:py-4 rounded-sm transition-all transform hover:scale-105 shadow-xl text-base lg:text-lg">
@@ -258,7 +260,7 @@ const About = () => (
         <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 lg:mb-8 leading-tight tracking-tight">Compromisso Ético e <span className="italic font-normal text-gray-400">Resultados Sérios</span></h2>
         <div className="space-y-4 lg:space-y-6 text-gray-600 text-sm md:text-lg leading-relaxed">
           <p>
-            Naiane Andrade oferece advocacia acessível, humanizada e técnica, com atendimento on-line e atenção individual a cada cliente.
+            Naiane Andrade oferece advocacia acessível, humanizada e técnica em Irecê-BA, com atendimento on-line e atenção individual a cada cliente.
           </p>
           <p>
             Especialista em Direito de Família, com foco em inventários, também atua em demandas de consumidor, guarda e pensão, divórcio, aposentadoria e análise de financiamentos com juros abusivos. Casos criminais são atendidos mediante análise antecipada.
@@ -465,6 +467,16 @@ const Footer = () => (
           <li className="flex items-center gap-3">
             <MessageCircle className="w-5 h-5 text-gold-500 shrink-0" />
             <span>Atendimento on-line</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <MapPin className="w-5 h-5 text-gold-500 shrink-0 mt-0.5" />
+            <a href="https://www.google.com/maps?cid=10131627341939219299" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors">
+              Icó, Novo Horizonte<br />Irecê-BA, 44865-235
+            </a>
+          </li>
+          <li className="flex items-center gap-3">
+            <Instagram className="w-5 h-5 text-gold-500 shrink-0" />
+            <a href="https://www.instagram.com/naianeandrade.advv/" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors">@naianeandrade.advv</a>
           </li>
         </ul>
       </div>

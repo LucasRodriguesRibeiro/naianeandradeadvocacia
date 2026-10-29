@@ -1,20 +1,31 @@
 # Naiane Andrade Advocacia
 
-> Site institucional da advogada Naiane Andrade, com atuação em Irecê, Bahia, e atendimento jurídico on-line em português.
+> Site institucional da advogada Naiane Andrade, com atuação em Irecê, Bahia, e atendimento jurídico on-line em português para todo o Brasil.
 
-## Serviços
+## Serviços e Páginas Oficiais
 
-- Direito de Família
-- Inventários e sucessões
-- Divórcio
-- Guarda e pensão alimentícia
+- Página Principal: https://www.naianeandradeadvocacia.com.br/
+- Inventário e Sucessões: https://www.naianeandradeadvocacia.com.br/inventario
+  - Inventário extrajudicial em cartório
+  - Inventário judicial
+  - Partilha de bens e herança
+  - Planejamento sucessório, testamentos e doações
+  - Alvarás judiciais e liberação de valores
+  - Sobrepartilha e regularização de bens
+- Direito de Família: https://www.naianeandradeadvocacia.com.br/familia
+  - Divórcio consensual em cartório e litigioso
+  - Pensão alimentícia (fixação, revisão e execução)
+  - Guarda dos filhos e regulamentação de convivência / visitas
+  - União estável (reconhecimento e dissolução com partilha)
+  - Investigação de paternidade
+  - Pacto antenupcial e contrato de namoro
 - Direito do Consumidor e análise de financiamentos
-- Aposentadoria
+- Aposentadoria e benefícios previdenciários
 - Casos criminais sujeitos a análise antecipada
 
 ## Contato oficial
 
-- Site: https://naianeandradeadvocacia.com.br/
+- Site: https://www.naianeandradeadvocacia.com.br/
 - Instagram: https://www.instagram.com/naianeandrade.advv/
 - Perfil no Google: https://www.google.com/maps?cid=10131627341939219299
 - WhatsApp: +55 74 99986-6142
@@ -23,6 +34,6 @@
 ## Informações importantes
 
 - Localização: Icó, Novo Horizonte, Irecê-BA, CEP 44865-235.
-- O atendimento é realizado em Irecê-BA e on-line.
+- O atendimento é realizado presencialmente em Irecê-BA e 100% on-line em todo o Brasil.
 - Honorários conforme a tabela da OAB e a natureza da causa.
 - Este site tem caráter informativo e não substitui uma consulta jurídica individual.

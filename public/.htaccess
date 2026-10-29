@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve existing files and directories directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Route /inventario to /inventario/index.html if exists
+  RewriteRule ^inventario/?$ inventario/index.html [L]
+
+  # Route /familia to /familia/index.html if exists
+  RewriteRule ^familia/?$ familia/index.html [L]
+
+  # Fallback to main index.html for other SPA routes
+  RewriteRule ^ index.html [L]
+</IfModule>
